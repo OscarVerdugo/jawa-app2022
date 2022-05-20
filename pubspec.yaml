@@ -1,0 +1,26 @@
+name: jawa_app
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: '>=2.16.2 <3.0.0'
+
+dependencies:
+  connectivity_plus: ^2.3.0
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^5.0.2
+  get: 4.6.1
+  google_fonts: ^2.3.2
+  http: ^0.13.4
+  jwt_decode: ^0.3.1
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+  lints: 1.0.1
+
+flutter:
+  uses-material-design: true
