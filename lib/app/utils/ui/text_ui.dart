@@ -18,13 +18,41 @@ class UIText {
         .copyWith(color: UIColors.darkColor, fontWeight: FontWeight.w700);
   }
 
+  TextStyle get h4 {
+    return theme.headline4!
+        .copyWith(color: UIColors.darkColor, fontWeight: FontWeight.w700);
+  }
+
+  TextStyle get h5 {
+    return theme.headline5!
+        .copyWith(color: UIColors.darkColor, fontWeight: FontWeight.w700);
+  }
+
   TextStyle get titleSm {
     return theme.titleSmall!.copyWith(color: UIColors.darkColor, fontSize: 15);
+  }
+
+  TextStyle get titleMd {
+    return theme.titleMedium!.copyWith(color: UIColors.darkColor);
+  }
+
+  TextStyle get titleLg {
+    return theme.titleLarge!.copyWith(color: UIColors.darkColor);
   }
 
   TextStyle get message {
     return theme.subtitle1!.copyWith(
         color: UIColors.darkColor, fontSize: 15, fontWeight: FontWeight.w500);
+  }
+
+  TextStyle get itemInfo {
+    return theme.bodyMedium!
+        .copyWith(color: UIColors.darkColor75, fontWeight: FontWeight.w500);
+  }
+
+  TextStyle get itemTitle {
+    return theme.titleMedium!
+        .copyWith(color: UIColors.darkColor, fontWeight: FontWeight.w600);
   }
 
   TextStyle get button {

@@ -2,32 +2,33 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jawa_app/app/routes/app_pages.dart';
 import 'package:jawa_app/app/services/auth_service.dart';
 import 'package:jawa_app/app/utils/connection.dart';
 
+import '../../../controllers/global_controller.dart';
+
 class SigninController extends GetxController {
   final _authService = AuthService();
+
+  final _globalCtl = Get.find<GlobalController>();
 
   final usernameCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   final displayMessage = RxBool(false);
-  final message = RxnString("Comprueba tus datos por favor");
+  final message = RxnString(null);
 
   final loading = RxBool(false);
   final hasConnection = RxBool(false);
 
-  late StreamSubscription _connectionStream;
-
   @override
   void onInit() async {
-    onLogin();
     super.onInit();
 
     Connection connection = Connection.getInstance();
-    _connectionStream =
-        connection.onConnectionChange.listen(onChangeConnection);
+    connection.onConnectionChange.listen(onChangeConnection);
     hasConnection.value = await connection.checkConnection();
   }
 
@@ -46,6 +47,7 @@ class SigninController extends GetxController {
           username: usernameCtrl.text, password: passwordCtrl.text);
       loading.value = false;
       if (res.success) {
+        onLogin(res.data);
       } else {
         displayMessage.value = true;
         message.value = res.message;
@@ -63,8 +65,15 @@ class SigninController extends GetxController {
     }));
   }
 
-  void onLogin() async {
-    print("LOGIN");
+  void onLogin(String? token) async {
+    if (token != null) {
+      await _globalCtl.saveSession(token);
+      Get.offNamed(Routes.INITIALIZE_ROUTE);
+    } else {
+      displayMessage.value = true;
+      message.value = "Ocurrió algo al iniciar sesión, intenta de nuevo.";
+      hideMessage();
+    }
   }
 
   void onChangeConnection(bool hasConnection) {

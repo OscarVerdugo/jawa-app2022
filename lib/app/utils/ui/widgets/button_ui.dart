@@ -7,12 +7,14 @@ class UIButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final String text;
+  final bool fitContent;
   late UIText textStyles;
-  void Function()? onTap;
+  final void Function()? onTap;
   UIButton(
       {Key? key,
       required this.loading,
       required this.color,
+      required this.fitContent,
       required this.textColor,
       this.onTap,
       required this.text})
@@ -22,10 +24,12 @@ class UIButton extends StatelessWidget {
       {required Color color,
       required String text,
       bool loading = false,
+      bool fitContent = false,
       Function()? onTap}) {
     return UIButton(
         loading: loading,
         textColor: color,
+        fitContent: fitContent,
         text: text,
         color: Colors.transparent,
         onTap: onTap);
@@ -35,9 +39,11 @@ class UIButton extends StatelessWidget {
       {required Color color,
       required String text,
       bool loading = false,
+      bool fitContent = false,
       Function()? onTap}) {
     return UIButton(
         loading: loading,
+        fitContent: fitContent,
         color: color,
         text: text,
         textColor: UIColors.white,
@@ -51,10 +57,12 @@ class UIButton extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
       return AnimatedContainer(
         duration: Duration(milliseconds: 150),
-        width: loading ? 175 : constraints.maxWidth,
+        width: loading || fitContent ? 175 : constraints.maxWidth,
         height: 50,
         child: Material(
-          color: loading ? color.withOpacity(0.7) : color,
+          color: loading && color != Colors.transparent
+              ? color.withOpacity(0.7)
+              : color,
           borderRadius: BorderRadius.circular(10),
           clipBehavior: Clip.hardEdge,
           child: InkWell(

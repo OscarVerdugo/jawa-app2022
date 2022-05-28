@@ -5,14 +5,18 @@ class UITextField extends StatefulWidget {
   final String label;
   final String? placeholder;
   final TextEditingController? controller;
+  final bool readonly;
+  final TextInputType? inputType;
   final String? Function(String?)? validator;
   final bool password;
 
   UITextField(
       {this.controller,
       this.validator,
+      this.readonly = false,
       this.password = false,
       required this.label,
+      this.inputType,
       this.placeholder});
 
   @override
@@ -38,6 +42,9 @@ class _UITextFieldState extends State<UITextField> {
           ),
         ),
         TextFormField(
+            readOnly: widget.readonly,
+            enabled: !widget.readonly,
+            keyboardType: widget.inputType,
             autocorrect: false,
             enableSuggestions: false,
             controller: widget.controller,

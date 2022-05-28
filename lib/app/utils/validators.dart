@@ -16,4 +16,13 @@ class Validators {
     }
     return "Verifique su contraseña";
   }
+
+  static String? mileage(String? value) {
+    if (value == null || value.isEmpty) return "Ingrese el kilometraje";
+    final asNumber = int.tryParse(value);
+    if (RE.mileage.hasMatch(value) && asNumber != null && asNumber > 0) {
+      return null;
+    }
+    return "Verifique la cantidad";
+  }
 }
