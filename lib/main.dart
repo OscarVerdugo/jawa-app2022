@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jawa_app/app/utils/theme_data.dart';
 import 'package:jawa_app/app/utils/utils.dart';
@@ -11,7 +12,10 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Connection connectionStatus = Connection.getInstance();
   connectionStatus.initialize();
-  runApp(App());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(App()));
 }
 
 class App extends StatelessWidget {

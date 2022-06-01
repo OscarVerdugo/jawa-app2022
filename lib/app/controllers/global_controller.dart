@@ -62,7 +62,7 @@ class GlobalController extends GetxController {
     var storedRoute = await storage.read(key: "current-route");
     if (storedRoute != null) {
       RouteModel route = RouteModel.fromJson(storedRoute);
-      if (DateTime.now().isAfter(route.dia)) {
+      if (!Utils.compareDates(DateTime.now(), route.dia)) {
         await storage.delete(key: "current-route");
         getRoute();
       } else {
@@ -92,7 +92,7 @@ class GlobalController extends GetxController {
     update();
   }
 
-  Future<HttpResponse> chooseVehicle(
+  Future<HttpResponse> startRoute(
       VehicleModel vehicle, int initialMileage) async {
     if (hasConnection.value) {
       final res = await routeService.chooseVehicle(
@@ -101,6 +101,7 @@ class GlobalController extends GetxController {
           initialMileage: initialMileage);
       if (res.success) {
         route.value!.vehiculo = vehicle;
+        route.value!.horaInicio = DateTime.now();
         await storage.write(key: "current-route", value: route.value!.toJson());
       } else {
         print("RESULT FAILURE");
@@ -145,6 +146,8 @@ class GlobalController extends GetxController {
 
   logout() async {
     await storage.delete(key: 'access-token');
+    await storage.delete(key: 'current-route');
+
     user = Rxn<UserModel>();
     route = Rxn<RouteModel>();
     Get.offAllNamed(Routes.SIGNIN);

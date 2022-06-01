@@ -10,6 +10,7 @@ class RouteModel {
     required this.idRuta,
     required this.kilometrajeInicial,
     required this.dia,
+    this.horaInicio,
     required this.sucursal,
     required this.rutaDiaria,
     required this.vehiculo,
@@ -19,6 +20,7 @@ class RouteModel {
   final int? idRuta;
   final int kilometrajeInicial;
   final DateTime dia;
+  DateTime? horaInicio;
   final BranchModel sucursal;
   final DailyRouteModel? rutaDiaria;
   VehicleModel? vehiculo;
@@ -33,6 +35,9 @@ class RouteModel {
         idRuta: json["id_Ruta"] ?? 0,
         kilometrajeInicial: json["kilometraje_Inicial"] ?? 0,
         dia: DateTime.parse(json["dia"]),
+        horaInicio: json['hora_Inicio'] != null
+            ? DateTime.parse(json["hora_Inicio"])
+            : null,
         sucursal: BranchModel.fromMap(json["sucursal"]),
         rutaDiaria: json["ruta_Diaria"] != null
             ? DailyRouteModel.fromMap(json["ruta_Diaria"])
@@ -47,6 +52,8 @@ class RouteModel {
   Map<String, dynamic> toMap() => {
         "id_Ruta": idRuta,
         "dia": dia.toIso8601String(),
+        "hora_Inicio":
+            horaInicio != null ? horaInicio!.toIso8601String() : null,
         "kilometraje_Inicial": kilometrajeInicial,
         "sucursal": sucursal.toMap(),
         "ruta_Diaria": rutaDiaria != null ? rutaDiaria!.toMap() : null,

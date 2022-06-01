@@ -15,7 +15,7 @@ class UIColors {
 
   static final white = Color.fromRGBO(255, 255, 255, 1);
   static final red = Color.fromRGBO(255, 118, 117, 1.0);
-  static final blue = Color.fromRGBO(99, 205, 218, 1.0);
+  static final blue = Color.fromRGBO(41, 128, 185, 1.0);
   static final darkBlue = Color.fromRGBO(61, 193, 211, 1.0);
   static final orange = Color.fromRGBO(243, 166, 131, 1.0);
   static final yellow = Color.fromRGBO(247, 215, 148, 1.0);

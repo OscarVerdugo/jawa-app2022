@@ -68,7 +68,7 @@ class SigninController extends GetxController {
   void onLogin(String? token) async {
     if (token != null) {
       await _globalCtl.saveSession(token);
-      Get.offNamed(Routes.INITIALIZE_ROUTE);
+      Get.offNamed(Routes.LANDING);
     } else {
       displayMessage.value = true;
       message.value = "Ocurrió algo al iniciar sesión, intenta de nuevo.";

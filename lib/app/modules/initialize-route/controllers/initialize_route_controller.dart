@@ -33,7 +33,7 @@ class InitializeRouteController extends GetxController {
           ? globalCtrl.route.value!.kilometrajeInicial
           : "";
       initialMileageController.text = initialMileage.toString();
-      if (vehicle.value != null) {
+      if (globalCtrl.route.value!.horaInicio != null) {
         alreadyStarted.value = true;
       }
     }
@@ -71,7 +71,7 @@ class InitializeRouteController extends GetxController {
   onStartRoute() async {
     final initialMileage = int.tryParse(initialMileageController.text)!;
     loading.value = true;
-    final res = await globalCtrl.chooseVehicle(vehicle.value!, initialMileage);
+    final res = await globalCtrl.startRoute(vehicle.value!, initialMileage);
     loading.value = false;
     if (res.success) {
       Get.offAllNamed(Routes.ROUTE_CUSTOMERS);

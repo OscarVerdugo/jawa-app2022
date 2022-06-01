@@ -13,7 +13,13 @@ class LandingController extends GetxController {
 
   void verifySession() async {
     if (await _globalCtrl.verify()) {
-      Get.offNamed(Routes.INITIALIZE_ROUTE);
+      await _globalCtrl.initRoute();
+      if (_globalCtrl.route.value != null &&
+          _globalCtrl.route.value!.horaInicio != null) {
+        Get.offNamed(Routes.ROUTE_CUSTOMERS);
+      } else {
+        Get.offNamed(Routes.INITIALIZE_ROUTE);
+      }
     } else {
       Get.offNamed(Routes.SIGNIN);
     }

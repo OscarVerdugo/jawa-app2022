@@ -50,6 +50,11 @@ class UIText {
         .copyWith(color: UIColors.darkColor75, fontWeight: FontWeight.w500);
   }
 
+  TextStyle get itemInfoSm {
+    return theme.bodyMedium!.copyWith(
+        color: UIColors.darkColor75, fontWeight: FontWeight.w500, fontSize: 12);
+  }
+
   TextStyle get itemTitle {
     return theme.titleMedium!
         .copyWith(color: UIColors.darkColor, fontWeight: FontWeight.w600);
