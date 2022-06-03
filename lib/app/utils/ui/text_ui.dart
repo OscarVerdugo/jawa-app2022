@@ -52,7 +52,7 @@ class UIText {
 
   TextStyle get itemInfoSm {
     return theme.bodyMedium!.copyWith(
-        color: UIColors.darkColor75, fontWeight: FontWeight.w500, fontSize: 12);
+        color: UIColors.darkColor75, fontWeight: FontWeight.w600, fontSize: 12);
   }
 
   TextStyle get itemTitle {
@@ -72,11 +72,34 @@ class UIText {
         fontWeight: FontWeight.w600);
   }
 
+  TextStyle get inputTextLabelSm {
+    return theme.titleSmall!.copyWith(
+        color: UIColors.darkColor.withOpacity(0.9),
+        fontSize: 13,
+        fontWeight: FontWeight.w600);
+  }
+
   TextStyle get inputText {
     return theme.bodySmall!.copyWith(
         color: UIColors.darkColor.withOpacity(0.7),
         letterSpacing: 0.5,
         fontSize: 15,
+        fontWeight: FontWeight.w600);
+  }
+
+  TextStyle get inputTextSm {
+    return theme.bodySmall!.copyWith(
+        color: UIColors.darkColor.withOpacity(0.6),
+        letterSpacing: 0.5,
+        fontSize: 12,
+        fontWeight: FontWeight.w600);
+  }
+
+  TextStyle get badgeDescriptionSm {
+    return theme.bodySmall!.copyWith(
+        color: UIColors.darkColor.withOpacity(0.5),
+        letterSpacing: 0.5,
+        fontSize: 11,
         fontWeight: FontWeight.w600);
   }
 }

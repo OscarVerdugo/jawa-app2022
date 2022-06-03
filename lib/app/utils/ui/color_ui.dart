@@ -12,13 +12,16 @@ class UIColors {
   static final darkColor15 = Color.fromRGBO(48, 57, 82, 0.15);
   static final darkColor10 = Color.fromRGBO(48, 57, 82, 0.10);
   static final darkColor05 = Color.fromRGBO(48, 57, 82, 0.05);
+  static final darkColor02 = Color.fromRGBO(48, 57, 82, 0.02);
 
   static final white = Color.fromRGBO(255, 255, 255, 1);
   static final red = Color.fromRGBO(255, 118, 117, 1.0);
   static final blue = Color.fromRGBO(41, 128, 185, 1.0);
   static final darkBlue = Color.fromRGBO(61, 193, 211, 1.0);
-  static final orange = Color.fromRGBO(243, 166, 131, 1.0);
+  static final orange = Color.fromRGBO(231, 127, 103, 1.0);
+  static final purple = Color.fromRGBO(84, 109, 229, 1);
   static final yellow = Color.fromRGBO(247, 215, 148, 1.0);
+  static final green = Color.fromRGBO(32, 222, 129, 1);
 
   static Color fromHex(hexString) {
     final buffer = StringBuffer();

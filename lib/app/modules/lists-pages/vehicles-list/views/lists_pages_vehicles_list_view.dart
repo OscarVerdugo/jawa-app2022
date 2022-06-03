@@ -25,7 +25,9 @@ class VehiclesListView extends GetView<VehiclesListController> {
     );
   }
 
-  Widget _body() => GetBuilder<VehiclesListController>(builder: (controller) {
+  Widget _body() => SafeArea(child: _list());
+
+  Widget _list() => GetBuilder<VehiclesListController>(builder: (controller) {
         if (controller.loading.value) return UILoading();
         return ListView.builder(
             physics: BouncingScrollPhysics(),

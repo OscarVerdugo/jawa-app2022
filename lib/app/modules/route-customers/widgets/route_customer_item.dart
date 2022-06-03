@@ -61,15 +61,15 @@ class RouteCustomerItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Notas", style: textStyles.itemInfoSm),
+          Text("Notas pendientes", style: textStyles.itemInfoSm),
           SizedBox(width: 4),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
             decoration: BoxDecoration(
-                color: UIColors.yellow, borderRadius: BorderRadius.circular(5)),
+                color: UIColors.orange, borderRadius: BorderRadius.circular(5)),
             child: Text("${customer.notasAsignadas.length}",
-                style: textStyles.itemInfoSm
-                    .copyWith(fontWeight: FontWeight.w800)),
+                style: textStyles.itemInfoSm.copyWith(
+                    fontWeight: FontWeight.w800, color: UIColors.white)),
           )
         ],
       ),

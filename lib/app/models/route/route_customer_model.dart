@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:jawa_app/app/models/product/promotion_model.dart';
 import 'package:jawa_app/app/models/route/assigned_note_model.dart';
 
@@ -57,6 +58,7 @@ class RouteCustomerModel {
             ? DateTime.parse(json["hora_Visita"])
             : null,
         telefonoEncargado: json["telefono_Encargado"],
+        nombreEncargado: json['nombre_Encargado'],
         factura: json["factura"],
         observacion: json["observacion"],
         comentarios: json["comentarios"],
@@ -84,4 +86,12 @@ class RouteCustomerModel {
         "id_Grupo_Precios": idGrupoPrecios,
         "promocion": promocion != null ? promocion!.toMap() : null,
       };
+
+  String? get horaVisitaTexto {
+    if (horaVisita != null) {
+      return DateFormat('HH:mm').format(horaVisita!);
+    } else {
+      return null;
+    }
+  }
 }

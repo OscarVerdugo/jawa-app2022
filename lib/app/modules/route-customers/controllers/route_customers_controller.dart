@@ -81,10 +81,12 @@ class RouteCustomersController extends GetxController {
   }
 
   handleSelectCustomer(RouteCustomerModel customer) {
-    showBottomSheet(
+    showModalBottomSheet(
         context: Get.context!,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
         builder: (BuildContext ctx) {
-          return CustomerMenu();
+          return CustomerMenu(customer: customer);
         });
   }
 
@@ -104,5 +106,13 @@ class RouteCustomersController extends GetxController {
       // displayMessage.value = false;
       // message.value = null;
     }
+  }
+
+  int get visitedCustomersLength {
+    return customers.where((c) => c.horaVisita != null).length;
+  }
+
+  int get visitedCustomesPercentage {
+    return ((visitedCustomersLength / customers.length) * 100).toInt();
   }
 }
