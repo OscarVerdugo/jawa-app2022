@@ -9,6 +9,8 @@ abstract class Routes {
   static const INITIALIZE_ROUTE = _Paths.INITIALIZE_ROUTE;
   static const LANDING = _Paths.LANDING;
   static const VEHICLES_LIST = _Paths.VEHICLES_LIST;
+  static const ROUTE_INVENTORY = _Paths.ROUTE_INVENTORY;
+  static const ROUTE_REFILLS = _Paths.ROUTE_REFILLS;
 }
 
 abstract class _Paths {
@@ -19,4 +21,6 @@ abstract class _Paths {
   static const INITIALIZE_ROUTE = '/initialize-route';
   static const LANDING = '/landing';
   static const VEHICLES_LIST = '/vehicles-list';
+  static const ROUTE_INVENTORY = '/route-inventory';
+  static const ROUTE_REFILLS = '/route-refills';
 }

@@ -39,4 +39,7 @@ class VehicleModel {
         "color": color,
         "en_Uso": enUso,
       };
+  String? get description {
+    return "$marca $modelo";
+  }
 }

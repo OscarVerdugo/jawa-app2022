@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:jawa_app/app/modules/route-inventory/views/route_refills_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -10,6 +11,8 @@ import '../modules/lists-pages/vehicles-list/bindings/vehicles_list_binding.dart
 import '../modules/lists-pages/vehicles-list/views/lists_pages_vehicles_list_view.dart';
 import '../modules/route-customers/bindings/route_customers_binding.dart';
 import '../modules/route-customers/views/route_customers_view.dart';
+import '../modules/route-inventory/bindings/route_inventory_binding.dart';
+import '../modules/route-inventory/views/route_inventory_view.dart';
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/views/signin_view.dart';
 
@@ -50,6 +53,16 @@ class AppPages {
       name: _Paths.VEHICLES_LIST,
       page: () => VehiclesListView(),
       binding: VehiclesListBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_INVENTORY,
+      page: () => RouteInventoryView(),
+      binding: RouteInventoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_REFILLS,
+      page: () => RouteRefillsView(),
+      binding: RouteInventoryBinding(),
     ),
   ];
 }

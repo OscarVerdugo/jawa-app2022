@@ -65,6 +65,11 @@ class UIText {
         fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 1.5);
   }
 
+  TextStyle get buttonSm {
+    return theme.button!.copyWith(
+        fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 1.5);
+  }
+
   TextStyle get inputTextLabel {
     return theme.titleSmall!.copyWith(
         color: UIColors.darkColor.withOpacity(0.9),
@@ -100,6 +105,14 @@ class UIText {
         color: UIColors.darkColor.withOpacity(0.5),
         letterSpacing: 0.5,
         fontSize: 11,
+        fontWeight: FontWeight.w600);
+  }
+
+  TextStyle get badgeDescriptionXs {
+    return theme.bodySmall!.copyWith(
+        color: UIColors.darkColor.withOpacity(0.5),
+        letterSpacing: 0.5,
+        fontSize: 9,
         fontWeight: FontWeight.w600);
   }
 }
