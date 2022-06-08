@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class ProductRefillModel {
   ProductRefillModel({
+    required this.idMovimiento,
     required this.idPresentacion,
     required this.producto,
     required this.presentacion,
@@ -13,7 +14,7 @@ class ProductRefillModel {
     required this.fechaRespuesta,
     required this.estatus,
   });
-
+  final int idMovimiento;
   final int idPresentacion;
   final String producto;
   final String presentacion;
@@ -23,7 +24,7 @@ class ProductRefillModel {
   final DateTime fechaRegistro;
   final String? usuarioRespuesta;
   final DateTime? fechaRespuesta;
-  final String estatus;
+  String estatus;
   bool? aceptado;
 
   factory ProductRefillModel.fromJson(String str) =>
@@ -33,6 +34,7 @@ class ProductRefillModel {
 
   factory ProductRefillModel.fromMap(Map<String, dynamic> json) =>
       ProductRefillModel(
+        idMovimiento: json["id_Movimiento"],
         idPresentacion: json["id_Presentacion"] ?? 0,
         producto: json["producto"],
         presentacion: json["presentacion"],
@@ -61,4 +63,6 @@ class ProductRefillModel {
         "estatus": estatus,
         "aceptado": aceptado
       };
+  Map<String, dynamic> toRefillResponse() =>
+      {"estatus": aceptado, "id_Movimiento": idMovimiento};
 }

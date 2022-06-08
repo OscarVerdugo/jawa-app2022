@@ -6,9 +6,9 @@ import 'package:jawa_app/app/utils/constants.dart';
 import '../../../utils/ui/ui.dart';
 import '../controllers/route_inventory_controller.dart';
 
-class RouteRefillsView extends GetView<RouteInventoryController> {
+class RouteRequestRefillsView extends GetView<RouteInventoryController> {
   late UIText textStyles;
-  RouteRefillsView({Key? key}) : super(key: key);
+  RouteRequestRefillsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class RouteRefillsView extends GetView<RouteInventoryController> {
     return GetBuilder<RouteInventoryController>(
         builder: (RouteInventoryController ctlr) {
       return Scaffold(
-        appBar: AppBar(title: Text('Recargas'), centerTitle: true),
+        appBar: AppBar(title: Text('Solicitar recarga'), centerTitle: true),
         bottomNavigationBar: _bottom(),
         body: SafeArea(child: _body()),
       );

@@ -8,7 +8,7 @@ class UIToastService {
   var navkey = GlobalKey<NavigatorState>();
   Timer? _timer;
   OverlayEntry? _entry;
-  List<_ToastEntry> _queue = [];
+  final List<_ToastEntry> _queue = [];
   static final UIToastService _singleton = UIToastService._internal();
 
   factory UIToastService() {

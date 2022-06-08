@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jawa_app/app/models/product/product_refill_model.dart';
 import 'package:jawa_app/app/utils/ui/ui.dart';
 
+import '../../../utils/constants.dart';
+
 class RefillItem extends StatelessWidget {
   final ProductRefillModel refill;
   late UIText textStyles;
@@ -18,7 +20,8 @@ class RefillItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     textStyles = UIText(context);
-    final canAnswer = refill.estatus == "PEN" && refill.origen == "SUC";
+    final canAnswer = refill.estatus == STATUS.PENDING &&
+        refill.origen == REFILL_ORIGIN.BRANCH;
     return Padding(
       padding: EdgeInsets.only(bottom: canAnswer ? 4 : 0),
       child: Stack(
@@ -157,12 +160,13 @@ class RefillItem extends StatelessWidget {
   }
 
   String get _getStatusLabel {
-    if (refill.estatus == "ACT") {
+    if (refill.estatus == STATUS.ACTIVE) {
       return "A"; //AUTORIZADO
-    } else if (refill.estatus == "REC") {
+    } else if (refill.estatus == STATUS.REJECTED) {
       return "R"; //RECHAZADO
     }
-    if (refill.origen == "RUTA" && refill.estatus == "PEN") {
+    if (refill.origen == REFILL_ORIGIN.ROUTE &&
+        refill.estatus == STATUS.PENDING) {
       return "P"; //PENDIENTE DE ACEPTACION DE PRODUCCION
     } else {
       return ""; //PENDIENTE DE ACEPTACION DEL VENDEDOR
@@ -170,12 +174,13 @@ class RefillItem extends StatelessWidget {
   }
 
   Color get _getStatusColor {
-    if (refill.estatus == "ACT") {
+    if (refill.estatus == STATUS.ACTIVE) {
       return UIColors.green; //AUTORIZADO
-    } else if (refill.estatus == "REC") {
+    } else if (refill.estatus == STATUS.REJECTED) {
       return UIColors.red; //RECHAZADO
     }
-    if (refill.origen == "RUTA" && refill.estatus == "PEN") {
+    if (refill.origen == REFILL_ORIGIN.ROUTE &&
+        refill.estatus == STATUS.PENDING) {
       return UIColors.orange; //PENDIENTE DE ACEPTACION DE PRODUCCION
     } else {
       return UIColors.white; //PENDIENTE DE ACEPTACION DEL VENDEDOR

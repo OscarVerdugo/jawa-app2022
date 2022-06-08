@@ -38,7 +38,7 @@ class InventoryMenu extends StatelessWidget {
             label: "Recargas"),
       ),
       UICardButtonWrapper(
-        onTap: () {},
+        onTap: controller.handleGoToRequest,
         color: UIColors.darkColor02,
         child: UIOption(
             color: UIColors.darkColor,

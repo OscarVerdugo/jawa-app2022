@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jawa_app/app/modules/route-inventory/views/route_refills_view.dart';
+import 'package:jawa_app/app/modules/route-inventory/views/route_request_refills_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -62,6 +63,11 @@ class AppPages {
     GetPage(
       name: _Paths.ROUTE_REFILLS,
       page: () => RouteRefillsView(),
+      binding: RouteInventoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_REQUEST_REFILLS,
+      page: () => RouteRequestRefillsView(),
       binding: RouteInventoryBinding(),
     ),
   ];

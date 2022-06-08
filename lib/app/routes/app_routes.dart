@@ -11,6 +11,7 @@ abstract class Routes {
   static const VEHICLES_LIST = _Paths.VEHICLES_LIST;
   static const ROUTE_INVENTORY = _Paths.ROUTE_INVENTORY;
   static const ROUTE_REFILLS = _Paths.ROUTE_REFILLS;
+  static const ROUTE_REQUEST_REFILLS = _Paths.ROUTE_REQUEST_REFILLS;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const VEHICLES_LIST = '/vehicles-list';
   static const ROUTE_INVENTORY = '/route-inventory';
   static const ROUTE_REFILLS = '/route-refills';
+  static const ROUTE_REQUEST_REFILLS = '/route-request-refills';
 }
