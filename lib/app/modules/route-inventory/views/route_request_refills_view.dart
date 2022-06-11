@@ -5,18 +5,25 @@ import 'package:jawa_app/app/utils/constants.dart';
 
 import '../../../utils/ui/ui.dart';
 import '../controllers/route_inventory_controller.dart';
+import '../widgets/requestable_product_item.dart';
 
 class RouteRequestRefillsView extends GetView<RouteInventoryController> {
   late UIText textStyles;
+  var isReturn = false;
   RouteRequestRefillsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     textStyles = UIText(context);
+    if (Get.arguments != null && Get.arguments['isReturn'] != null) {
+      isReturn = Get.arguments['isReturn'];
+    }
     return GetBuilder<RouteInventoryController>(
         builder: (RouteInventoryController ctlr) {
       return Scaffold(
-        appBar: AppBar(title: Text('Solicitar recarga'), centerTitle: true),
+        appBar: AppBar(
+            title: Text(isReturn ? "Retornar producto" : 'Solicitar recarga'),
+            centerTitle: true),
         bottomNavigationBar: _bottom(),
         body: SafeArea(child: _body()),
       );
@@ -24,13 +31,13 @@ class RouteRequestRefillsView extends GetView<RouteInventoryController> {
   }
 
   Widget _body() {
-    if (controller.refillsLoading.value) {
-      return UILoading(message: "Obteniendo recargas...");
+    if (controller.productsLoading.value) {
+      return UILoading(message: "Obteniendo productos...");
     }
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Column(children: [_internetError(), _emptyState(), _list()]),
+        child: Column(children: [_internetError(), _list()]),
       ),
     );
   }
@@ -39,15 +46,15 @@ class RouteRequestRefillsView extends GetView<RouteInventoryController> {
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: controller.refills.length,
+        itemCount: controller.products.length,
         itemBuilder: (BuildContext ctx, int i) {
-          return RefillItem(
-            refill: controller.refills[i],
-            onAccept: (bool? answer) {
-              controller.handleAnswerRefill(controller.refills[i], answer);
-            },
-            onTap: () {},
-          );
+          return RequestableProductItem(
+              isReturn: isReturn,
+              product: controller.products[i],
+              onTap: () {
+                controller.handleRequestProductQuantity(
+                    controller.products[i], isReturn);
+              });
         });
   }
 
@@ -64,34 +71,8 @@ class RouteRequestRefillsView extends GetView<RouteInventoryController> {
     });
   }
 
-  Widget _emptyState() {
-    return Obx(() {
-      if (!controller.refillsLoading.value && controller.refills.isEmpty) {
-        return Column(
-          children: [
-            UICardMessage.neutral(
-                message: "No se tienen recargas registradas",
-                subMessage: "Intenta actualizar",
-                icon: Icons.sentiment_dissatisfied_rounded),
-            UIButton.text(
-                color: UIColors.darkColor,
-                text: "Actualizar",
-                onTap: () {
-                  controller.getRefills();
-                })
-          ],
-        );
-      } else {
-        return Container();
-      }
-    });
-  }
-
   Widget? _bottom() {
-    if (controller.refills
-        .where((r) =>
-            r.estatus == STATUS.PENDING && r.origen == REFILL_ORIGIN.BRANCH)
-        .isEmpty) {
+    if (controller.products.where((r) => r.cantidad != null).isEmpty) {
       return null;
     }
     return SafeArea(
@@ -100,9 +81,9 @@ class RouteRequestRefillsView extends GetView<RouteInventoryController> {
         child: UIButton.flat(
           loading: controller.respondRefillsLoading.value,
           color: UIColors.green,
-          text: "Guardar",
+          text: "Enviar",
           onTap: () {
-            controller.handleSaveRefills();
+            controller.handleSaveRequests(isReturn: isReturn);
           },
         ),
       ),

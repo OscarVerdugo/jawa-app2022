@@ -27,7 +27,7 @@ class RouteCustomerItem extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 8),
               height: 75,
               child: _info(),
             ),
@@ -47,7 +47,17 @@ class RouteCustomerItem extends StatelessWidget {
             if (customer.notasAsignadas.isNotEmpty) _assignedNotesBadge()
           ],
         ),
-        if (customer.horaVisita != null) _visited()
+        if (customer.horaVisita != null) _visited(),
+        if (customer.horaVisita == null) _extraInfo()
+      ],
+    );
+  }
+
+  Widget _extraInfo() {
+    return Column(
+      children: [
+        if (customer.comentarios != null)
+          Icon(Icons.comment_rounded, color: UIColors.darkColor45, size: 16)
       ],
     );
   }

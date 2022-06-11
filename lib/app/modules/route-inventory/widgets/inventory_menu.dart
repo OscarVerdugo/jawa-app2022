@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jawa_app/app/modules/route-inventory/controllers/route_inventory_controller.dart';
-import 'package:jawa_app/app/utils/ui/widgets/menu_wrapper_ui.dart';
 import 'package:jawa_app/app/utils/ui/widgets/option_ui.dart';
 
 import '../../../utils/ui/ui.dart';
@@ -46,7 +45,7 @@ class InventoryMenu extends StatelessWidget {
             label: "Solicitar recarga"),
       ),
       UICardButtonWrapper(
-        onTap: () {},
+        onTap: controller.handleGoToRequestReturn,
         color: UIColors.darkColor02,
         child: UIOption(
             color: UIColors.darkColor,

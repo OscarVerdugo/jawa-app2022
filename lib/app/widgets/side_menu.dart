@@ -62,7 +62,10 @@ class SideMenu extends StatelessWidget {
               icon: Icons.logout_rounded,
               color: UIColors.red,
               opacity: 0,
-              label: "Cerrar sesión")
+              label: "Cerrar sesión",
+              onTap: () {
+                globalController.logout();
+              })
         ],
       );
   Widget _menuOption(

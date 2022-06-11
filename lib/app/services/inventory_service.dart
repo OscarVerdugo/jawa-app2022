@@ -53,4 +53,21 @@ class InventoryService {
       return HttpResponse.fromError(e.toString(), 0);
     }
   }
+
+  Future<HttpResponse> requestProducts(
+      {required List<Map<String, dynamic>> responses}) async {
+    try {
+      HttpResponse response = await HttpService.post(
+          method: "rutas/AgregarMovimientoInventario",
+          dataOrigin: "success",
+          data: {"lst": responses});
+      print(response.rawData);
+      if (response.rawData != null) {
+        response.data = response.rawData;
+      }
+      return response;
+    } catch (e) {
+      return HttpResponse.fromError(e.toString(), 0);
+    }
+  }
 }

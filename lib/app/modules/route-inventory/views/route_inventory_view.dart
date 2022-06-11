@@ -54,7 +54,7 @@ class RouteInventoryView extends GetView<RouteInventoryController> {
 
   Widget _emptyState() {
     return Obx(() {
-      if (!controller.intentoryLoading.value && controller.products.isEmpty) {
+      if (!controller.intentoryLoading.value && controller.inventory.isEmpty) {
         return Column(
           children: [
             UICardMessage.neutral(
@@ -85,9 +85,9 @@ class RouteInventoryView extends GetView<RouteInventoryController> {
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: controller.products.length,
+        itemCount: controller.inventory.length,
         itemBuilder: (BuildContext ctx, int i) {
-          return ProductItem(product: controller.products[i]);
+          return ProductItem(product: controller.inventory[i]);
         });
   }
 }

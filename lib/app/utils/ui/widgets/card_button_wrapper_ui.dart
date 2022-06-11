@@ -9,13 +9,13 @@ class UICardButtonWrapper extends StatelessWidget {
   final double height;
   final Color color;
   final Widget child;
-  UICardButtonWrapper(
-      {Key? key,
-      required this.onTap,
-      required this.child,
-      this.height = 50,
-      required this.color})
-      : super(key: key);
+  UICardButtonWrapper({
+    Key? key,
+    required this.onTap,
+    this.height = 50,
+    required this.color,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

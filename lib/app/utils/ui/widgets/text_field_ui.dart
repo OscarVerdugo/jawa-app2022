@@ -9,14 +9,20 @@ class UITextField extends StatefulWidget {
   final TextInputType? inputType;
   final String? Function(String?)? validator;
   final bool password;
+  final Color? backgroundColor;
+  final bool autofocus;
+  final bool withError;
 
   UITextField(
       {this.controller,
       this.validator,
       this.readonly = false,
       this.password = false,
+      this.autofocus = false,
+      this.withError = true,
       required this.label,
       this.inputType,
+      this.backgroundColor,
       this.placeholder});
 
   @override
@@ -42,6 +48,7 @@ class _UITextFieldState extends State<UITextField> {
           ),
         ),
         TextFormField(
+            autofocus: widget.autofocus,
             readOnly: widget.readonly,
             enabled: !widget.readonly,
             keyboardType: widget.inputType,
@@ -56,7 +63,7 @@ class _UITextFieldState extends State<UITextField> {
                 suffixIcon: suffixIcon,
                 errorStyle:
                     TextStyle(color: UIColors.red, fontWeight: FontWeight.w600),
-                helperText: ' ',
+                helperText: widget.withError ? ' ' : null,
                 isDense: true,
                 filled: true,
                 fillColor: fillColor,
@@ -74,7 +81,7 @@ class _UITextFieldState extends State<UITextField> {
         return UIColors.red.withOpacity(0.2);
       }
     }
-    return UIColors.white;
+    return widget.backgroundColor ?? UIColors.white;
   }
 
   Color? get cursorColor {
