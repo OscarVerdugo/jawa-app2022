@@ -12,6 +12,12 @@ abstract class Routes {
   static const ROUTE_INVENTORY = _Paths.ROUTE_INVENTORY;
   static const ROUTE_REFILLS = _Paths.ROUTE_REFILLS;
   static const ROUTE_REQUEST_REFILLS = _Paths.ROUTE_REQUEST_REFILLS;
+  static const ROUTE_MAKE_SALE = _Paths.ROUTE_MAKE_SALE;
+  static const ROUTE_LOSSES_CHANGES = _Paths.ROUTE_LOSSES_CHANGES;
+  static const ROUTE_LOSSES_CHANGES_TO_RECEIVE =
+      _Paths.ROUTE_LOSSES_CHANGES_TO_RECEIVE;
+  static const ROUTE_LOSSES_CHANGES_TO_GIVE =
+      _Paths.ROUTE_LOSSES_CHANGES_TO_GIVE;
 }
 
 abstract class _Paths {
@@ -25,4 +31,9 @@ abstract class _Paths {
   static const ROUTE_INVENTORY = '/route-inventory';
   static const ROUTE_REFILLS = '/route-refills';
   static const ROUTE_REQUEST_REFILLS = '/route-request-refills';
+  static const ROUTE_MAKE_SALE = '/route-make-sale';
+  static const ROUTE_LOSSES_CHANGES = '/route-losses-changes';
+  static const ROUTE_LOSSES_CHANGES_TO_RECEIVE =
+      '/route-losses-changes-to-receive';
+  static const ROUTE_LOSSES_CHANGES_TO_GIVE = '/route-losses-changes-to-give';
 }

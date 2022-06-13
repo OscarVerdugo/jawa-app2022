@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:jawa_app/app/models/route/route_customer_model.dart';
+import 'package:jawa_app/app/modules/route-customers/controllers/route_customers_controller.dart';
 import 'package:jawa_app/app/utils/ui/widgets/menu_wrapper_ui.dart';
 import 'package:jawa_app/app/utils/ui/widgets/option_ui.dart';
 
@@ -7,6 +9,7 @@ import '../../../utils/ui/ui.dart';
 
 class CustomerMenu extends StatelessWidget {
   final RouteCustomerModel customer;
+  final controller = Get.find<RouteCustomersController>();
   late UIText textStyles;
   CustomerMenu({Key? key, required this.customer}) : super(key: key);
 
@@ -28,8 +31,10 @@ class CustomerMenu extends StatelessWidget {
         if (customer.telefono != null) _callCustomerOption(),
         _option(
             color: UIColors.blue,
-            label: "Vender producto",
-            onTap: () {},
+            label: "Vender productos",
+            onTap: () {
+              controller.handleMakeSale();
+            },
             icon: Icons.sell_rounded),
         if (customer.horaVisita == null)
           _option(
@@ -40,13 +45,17 @@ class CustomerMenu extends StatelessWidget {
         if (customer.notasAsignadas.isNotEmpty) _optionAssignedNotes(),
         _option(
             color: UIColors.orange,
-            label: "Cambiar producto",
-            onTap: () {},
+            label: "Cambiar productos",
+            onTap: () {
+              controller.handleMakeChange();
+            },
             icon: Icons.swap_horiz_rounded),
         _option(
-            label: "Cambiar merma",
+            label: "Cambiar mermas",
             color: UIColors.red,
-            onTap: () {},
+            onTap: () {
+              controller.handleMakeLoss();
+            },
             icon: Icons.flip_camera_android_rounded),
       ]),
     );

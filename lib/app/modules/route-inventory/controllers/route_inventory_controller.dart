@@ -20,7 +20,7 @@ import '../../../utils/utils.dart';
 
 class RouteInventoryController extends GetxController {
   final hasConnection = RxBool(false);
-  final intentoryLoading = RxBool(false);
+  final inventoryLoading = RxBool(false);
   final refillsLoading = RxBool(false);
   final respondRefillsLoading = RxBool(false);
   final saveRequestsLoading = RxBool(false);
@@ -50,7 +50,7 @@ class RouteInventoryController extends GetxController {
   }
 
   Future<void> getInventory() async {
-    intentoryLoading.value = true;
+    inventoryLoading.value = true;
     loadingMessage.value = "Obteniendo inventario...";
     update();
     if (hasConnection.value) {
@@ -66,7 +66,7 @@ class RouteInventoryController extends GetxController {
     } else {
       await getCachedInventory();
     }
-    intentoryLoading.value = false;
+    inventoryLoading.value = false;
     loadingMessage.value = null;
     update();
   }
@@ -130,6 +130,39 @@ class RouteInventoryController extends GetxController {
 
         await storage.write(
             key: "route-products", value: jsonEncode(res.data!));
+      } else {
+        print("RESULT FAILURE");
+      }
+    } else {
+      await getCachedProducts();
+    }
+    productsLoading.value = false;
+    loadingMessage.value = null;
+    update();
+  }
+
+  Future<void> getAvailableProducts() async {
+    products.value = [];
+    productsLoading.value = true;
+    update();
+    loadingMessage.value = "Obteniendo productos...";
+    if (hasConnection.value) {
+      final res = await generalService.getProducts();
+      if (res.success && res.data != null) {
+        products.value = res.data!;
+
+        await storage.write(
+            key: "route-products", value: jsonEncode(res.data!));
+
+        for (var p in products) {
+          final i =
+              inventory.indexWhere((i) => i.idPresentacion == p.idPresentacion);
+          if (i != -1) {
+            p.disponible = inventory[i].disponible;
+          }
+        }
+
+        products.value = products.where((p) => p.disponible > 0).toList();
       } else {
         print("RESULT FAILURE");
       }
@@ -240,7 +273,7 @@ class RouteInventoryController extends GetxController {
   handleGoToRequestReturn() {
     Get.back();
     Get.toNamed(Routes.ROUTE_REQUEST_REFILLS, arguments: {"isReturn": true});
-    getProducts();
+    getAvailableProducts();
   }
 
   handleRequestProductQuantity(ProductModel product, bool isReturn) async {

@@ -13,6 +13,7 @@ class ProductModel {
   final String producto;
   final String presentacion;
   int? cantidad;
+  double? precio;
   int disponible = 0;
   final String origen = "RUTA";
 

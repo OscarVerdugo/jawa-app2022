@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:jawa_app/app/modules/route-inventory/views/route_refills_view.dart';
-import 'package:jawa_app/app/modules/route-inventory/views/route_request_refills_view.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
@@ -14,6 +12,14 @@ import '../modules/route-customers/bindings/route_customers_binding.dart';
 import '../modules/route-customers/views/route_customers_view.dart';
 import '../modules/route-inventory/bindings/route_inventory_binding.dart';
 import '../modules/route-inventory/views/route_inventory_view.dart';
+import '../modules/route-inventory/views/route_refills_view.dart';
+import '../modules/route-inventory/views/route_request_refills_view.dart';
+import '../modules/route-losses-changes/bindings/route_losses_changes_binding.dart';
+import '../modules/route-losses-changes/views/route_losses_change_to_receive_view.dart';
+import '../modules/route-losses-changes/views/route_losses_changes_to_give_view.dart';
+import '../modules/route-losses-changes/views/route_losses_changes_view.dart';
+import '../modules/route-make-sale/bindings/route_make_sale_binding.dart';
+import '../modules/route-make-sale/views/route_make_sale_view.dart';
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/views/signin_view.dart';
 
@@ -69,6 +75,26 @@ class AppPages {
       name: _Paths.ROUTE_REQUEST_REFILLS,
       page: () => RouteRequestRefillsView(),
       binding: RouteInventoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_MAKE_SALE,
+      page: () => RouteMakeSaleView(),
+      binding: RouteMakeSaleBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_LOSSES_CHANGES,
+      page: () => RouteLossesChangesView(),
+      binding: RouteLossesChangesBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_LOSSES_CHANGES_TO_RECEIVE,
+      page: () => RouteLossesChangesToReceiveView(),
+      binding: RouteLossesChangesBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_LOSSES_CHANGES_TO_GIVE,
+      page: () => RouteLossesChangesToGiveView(),
+      binding: RouteLossesChangesBinding(),
     ),
   ];
 }

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:jawa_app/app/controllers/global_controller.dart';
 import 'package:jawa_app/app/models/route/route_customer_model.dart';
 import 'package:jawa_app/app/modules/route-customers/widgets/customer_menu.dart';
+import 'package:jawa_app/app/routes/app_pages.dart';
 import 'package:jawa_app/app/services/route_service.dart';
 
 import '../../../utils/utils.dart';
@@ -16,6 +17,9 @@ class RouteCustomersController extends GetxController {
   final globalController = Get.find<GlobalController>();
   final routeService = RouteService();
   final customers = RxList<RouteCustomerModel>();
+
+  final Rxn<RouteCustomerModel> selectedCustomer =
+      Rxn<RouteCustomerModel>(null);
 
   final loading = RxBool(true);
 
@@ -81,6 +85,8 @@ class RouteCustomersController extends GetxController {
   }
 
   handleSelectCustomer(RouteCustomerModel customer) {
+    selectedCustomer.value = customer;
+
     showModalBottomSheet(
         context: Get.context!,
         isScrollControlled: true,
@@ -88,6 +94,24 @@ class RouteCustomersController extends GetxController {
         builder: (BuildContext ctx) {
           return CustomerMenu(customer: customer);
         });
+  }
+
+  handleMakeSale() {
+    Get.back();
+    Get.toNamed(Routes.ROUTE_MAKE_SALE,
+        arguments: {"customer": selectedCustomer.value});
+  }
+
+  handleMakeLoss() {
+    Get.back();
+    Get.toNamed(Routes.ROUTE_LOSSES_CHANGES,
+        arguments: {"type": "MER", "customer": selectedCustomer.value});
+  }
+
+  handleMakeChange() {
+    Get.back();
+    Get.toNamed(Routes.ROUTE_LOSSES_CHANGES,
+        arguments: {"type": "CAM", "customer": selectedCustomer.value});
   }
 
   test() {

@@ -13,10 +13,10 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     textStyles = UIText(context);
     return UICardWrapper(
-        height: 65, child: _productItemInfo(product), color: UIColors.white);
+        height: 65, child: _productItemInfo(), color: UIColors.white);
   }
 
-  Row _productItemInfo(InventoryProductModel product) => Row(children: [
+  Row _productItemInfo() => Row(children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

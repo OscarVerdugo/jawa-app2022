@@ -28,7 +28,7 @@ class RouteInventoryView extends GetView<RouteInventoryController> {
 
   SafeArea _body() => SafeArea(child: GetBuilder<RouteInventoryController>(
           builder: (RouteInventoryController builder) {
-        if (controller.intentoryLoading.value) {
+        if (controller.inventoryLoading.value) {
           return UILoading(message: "Cargando inventario...");
         }
         return SingleChildScrollView(
@@ -54,7 +54,7 @@ class RouteInventoryView extends GetView<RouteInventoryController> {
 
   Widget _emptyState() {
     return Obx(() {
-      if (!controller.intentoryLoading.value && controller.inventory.isEmpty) {
+      if (!controller.inventoryLoading.value && controller.inventory.isEmpty) {
         return Column(
           children: [
             UICardMessage.neutral(
