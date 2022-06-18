@@ -51,6 +51,7 @@ class HttpService {
             HttpHeaders.contentTypeHeader: "application/json"
           },
           body: json.encode(data));
+      print(response.body);
       if (response.statusCode == 200) {
         HttpResponse<T> result =
             HttpResponse.fromMap(json.decode(response.body), dataOrigin);

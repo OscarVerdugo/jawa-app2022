@@ -25,7 +25,7 @@ class RouteLossesChangesToReceiveView
 
   SafeArea _body() => SafeArea(child: GetBuilder<RouteLossesChangesController>(
           builder: (RouteLossesChangesController builder) {
-        if (controller.productsLoading.value) {
+        if (controller.loading.value) {
           return UILoading(message: "Cargando productos...");
         }
         return SingleChildScrollView(

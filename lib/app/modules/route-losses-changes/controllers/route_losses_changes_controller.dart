@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:jawa_app/app/models/product/product_movement_model.dart';
 import 'package:jawa_app/app/models/route/route_customer_model.dart';
+import 'package:jawa_app/app/modules/route-losses-changes/widgets/movement_menu.dart';
 import 'package:jawa_app/app/routes/app_pages.dart';
 
 import '../../../controllers/global_controller.dart';
@@ -11,6 +13,7 @@ import '../../../models/product/inventory_product_model.dart';
 import '../../../models/product/product_model.dart';
 import '../../../services/general_service.dart';
 import '../../../services/inventory_service.dart';
+import '../../../utils/ui/services/alert_ui_service.dart';
 import '../../../utils/ui/ui.dart';
 import '../../../utils/utils.dart';
 
@@ -19,8 +22,8 @@ class RouteLossesChangesController extends GetxController {
   late RouteCustomerModel customer;
 
   final hasConnection = RxBool(false);
-  final inventoryLoading = RxBool(false);
-  final productsLoading = RxBool(false);
+  final loading = RxBool(false);
+  final loadingSave = RxBool(false);
   final loadingMessage = RxnString();
 
   final inventoryService = InventoryService();
@@ -53,7 +56,7 @@ class RouteLossesChangesController extends GetxController {
   }
 
   Future<void> getInventory() async {
-    inventoryLoading.value = true;
+    loading.value = true;
     loadingMessage.value = "Obteniendo inventario...";
     update();
     if (hasConnection.value) {
@@ -69,7 +72,7 @@ class RouteLossesChangesController extends GetxController {
     } else {
       await getCachedInventory();
     }
-    inventoryLoading.value = false;
+    loading.value = false;
     loadingMessage.value = null;
     update();
   }
@@ -84,7 +87,7 @@ class RouteLossesChangesController extends GetxController {
 
   Future<void> getProducts() async {
     products.value = [];
-    productsLoading.value = true;
+    loading.value = true;
     update();
     loadingMessage.value = "Obteniendo productos...";
     if (hasConnection.value) {
@@ -108,7 +111,7 @@ class RouteLossesChangesController extends GetxController {
     } else {
       await getCachedProducts();
     }
-    productsLoading.value = false;
+    loading.value = false;
     loadingMessage.value = null;
     update();
   }
@@ -118,6 +121,15 @@ class RouteLossesChangesController extends GetxController {
     if (storedProducts != null) {
       products.value = List<ProductModel>.from(
           jsonDecode(storedProducts).map((x) => ProductModel.fromJson(x)));
+    }
+  }
+
+  updateTeoricStock() {
+    availableProducts.value = products.where((p) => p.disponible > 0).toList();
+    for (var m in movements) {
+      final p = availableProducts
+          .firstWhere((x) => x.idPresentacion == m.idPresentacion);
+      p.disponible = p.disponible - m.cantidad;
     }
   }
 
@@ -139,6 +151,10 @@ class RouteLossesChangesController extends GetxController {
       for (var p in availableProducts) {
         p.cantidad = null;
       }
+      updateTeoricStock();
+      availableProducts.value = availableProducts
+          .where((p) => p.presentacion == selectedProduct.value!.presentacion)
+          .toList();
       Get.offNamed(Routes.ROUTE_LOSSES_CHANGES_TO_GIVE);
     } else {
       selectedProduct.value = null;
@@ -148,6 +164,7 @@ class RouteLossesChangesController extends GetxController {
   handleSelectToGive(int index) async {
     final quantity = await UIQuantityBottomSheetService.request(Get.context!,
         initial: availableProducts[index].cantidad);
+    availableProducts[index].cantidad = null;
     final alreadySelected =
         availableProducts.fold<int>(0, (sum, p) => (p.cantidad ?? 0) + sum);
     if (quantity != null) {
@@ -156,7 +173,13 @@ class RouteLossesChangesController extends GetxController {
             message: "No se puede dar más producto del que se va a recibir.");
         availableProducts[index].cantidad = null;
       } else {
-        availableProducts[index].cantidad = quantity;
+        if (quantity > availableProducts[index].disponible) {
+          toastService.error(
+              message: "No se puede entregar más producto del disponible.");
+          availableProducts[index].cantidad = null;
+        } else {
+          availableProducts[index].cantidad = quantity;
+        }
       }
     } else {
       availableProducts[index].cantidad = null;
@@ -164,7 +187,7 @@ class RouteLossesChangesController extends GetxController {
     update();
   }
 
-  handleRegistMovement() {
+  handleAddMovement() {
     final newMovements = availableProducts
         .where((p) => p.cantidad != null && p.cantidad! > 0)
         .toList()
@@ -180,10 +203,76 @@ class RouteLossesChangesController extends GetxController {
     for (var p in availableProducts) {
       p.cantidad = null;
     }
-    update();
     Get.back();
     toReceive.value = null;
     selectedProduct.value = null;
+    update();
+  }
+
+  handleSelectMovement(ProductMovementModel movement, int index) {
+    showModalBottomSheet(
+        context: Get.context!,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext ctx) {
+          return MovementMenu(movement: movement, index: index);
+        });
+  }
+
+  handleRemoveMovement(int index) {
+    Get.back();
+    UIAlertService.showConfirm(Get.context!,
+        title: "Eliminar", message: "Está seguro de continuar?", onAccept: () {
+      removeMovement(index);
+    });
+  }
+
+  removeMovement(int index) {
+    movements.removeAt(index);
+    update();
+    toastService.success(
+        message:
+            "${type == 'MER' ? 'Merma' : 'Cambio'} eliminado correctamente!");
+  }
+
+  handleSave() {
+    UIAlertService.showConfirm(Get.context!,
+        title: "Guardar", message: "Está seguro de continuar?", onAccept: () {
+      save();
+    });
+  }
+
+  save() async {
+    loadingSave.value = true;
+    update();
+    if (hasConnection.isTrue) {
+      final data = movements.map((e) => e.toMap()).toList();
+      print(data);
+      final res = await inventoryService.saveProductMovements(movements: data);
+      if (res.success) {
+        toastService.success(message: "Registrado exitosamente!");
+        Get.back();
+      }
+    } else {
+      toastService.error(
+          message: "Se requiere de una conexión a internet estable");
+    }
+    loadingSave.value = false;
+    update();
+  }
+
+  Future<bool> handleBack() async {
+    if (movements.isNotEmpty) {
+      UIAlertService.showConfirm(Get.context!,
+          title: "Regresar",
+          message: "Hay información sin guardar, está seguro de continuar?",
+          backText: "Permanecer", onAccept: () {
+        Get.back();
+      });
+      return false;
+    } else {
+      return true;
+    }
   }
 
   void onChangeConnection(bool hasConnection) {
@@ -195,6 +284,11 @@ class RouteLossesChangesController extends GetxController {
       // displayMessage.value = false;
       // message.value = null;
     }
+  }
+
+  Map<String, dynamic> getProductDescription(int idPresentation) {
+    var p = products.firstWhere((x) => x.idPresentacion == idPresentation);
+    return {'producto': p.producto, 'presentacion': p.presentacion};
   }
 
   @override

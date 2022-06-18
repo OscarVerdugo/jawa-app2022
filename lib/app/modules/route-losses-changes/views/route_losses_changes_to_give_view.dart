@@ -29,7 +29,7 @@ class RouteLossesChangesToGiveView
   }
 
   Widget _body() {
-    if (controller.productsLoading.value) {
+    if (controller.loading.value) {
       return UILoading(message: "Cargando productos...");
     }
     return SingleChildScrollView(
@@ -81,6 +81,12 @@ class RouteLossesChangesToGiveView
       );
 
   Widget _list() {
+    if (controller.availableProducts.isEmpty) {
+      return UICardMessage.warning(
+          message:
+              "No tienes productos en diponibilidad con la presentación requerida",
+          icon: Icons.warning_rounded);
+    }
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -118,7 +124,7 @@ class RouteLossesChangesToGiveView
             color: UIColors.green,
             text: "Guardar",
             onTap: () {
-              controller.handleRegistMovement();
+              controller.handleAddMovement();
             },
           ),
         ),
