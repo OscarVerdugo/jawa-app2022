@@ -114,8 +114,8 @@ class RouteCustomersController extends GetxController {
         arguments: {"type": "CAM", "customer": selectedCustomer.value});
   }
 
-  test() {
-    globalController.logout();
+  handleGoToAddCustomer() {
+    Get.toNamed(Routes.ROUTE_ADD_CUSTOMER);
   }
 
   @override

@@ -18,16 +18,18 @@ class RouteCustomersView extends GetView<RouteCustomersController> {
       appBar: AppBar(
         title: Text('Clientes'),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                controller.test();
-              },
-              icon: Icon(Icons.logout_rounded))
-        ],
+        actions: _actionButtons,
       ),
       body: _body(),
     );
+  }
+
+  List<Widget> get _actionButtons {
+    return [
+      IconButton(
+          onPressed: controller.handleGoToAddCustomer,
+          icon: Icon(Icons.person_add_rounded))
+    ];
   }
 
   SafeArea _body() => SafeArea(child: GetBuilder<RouteCustomersController>(

@@ -62,11 +62,10 @@ class RouteLossesChangesView extends GetView<RouteLossesChangesController> {
 
   Widget _emptyState() {
     if (controller.movements.isEmpty) {
-      return UICardMessage(
+      return UICardMessage.neutral(
           message:
               "Aún no registras ${controller.type == "MER" ? "mermas" : "cambios"}",
-          icon: Icons.add_circle_rounded,
-          color: UIColors.darkColor);
+          icon: Icons.add_circle_rounded);
     } else {
       return Container();
     }

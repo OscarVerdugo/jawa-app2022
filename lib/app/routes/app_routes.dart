@@ -18,6 +18,7 @@ abstract class Routes {
       _Paths.ROUTE_LOSSES_CHANGES_TO_RECEIVE;
   static const ROUTE_LOSSES_CHANGES_TO_GIVE =
       _Paths.ROUTE_LOSSES_CHANGES_TO_GIVE;
+  static const ROUTE_ADD_CUSTOMER = _Paths.ROUTE_ADD_CUSTOMER;
 }
 
 abstract class _Paths {
@@ -36,4 +37,5 @@ abstract class _Paths {
   static const ROUTE_LOSSES_CHANGES_TO_RECEIVE =
       '/route-losses-changes-to-receive';
   static const ROUTE_LOSSES_CHANGES_TO_GIVE = '/route-losses-changes-to-give';
+  static const ROUTE_ADD_CUSTOMER = '/route-add-customer';
 }

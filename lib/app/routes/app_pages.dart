@@ -8,6 +8,8 @@ import '../modules/landing/bindings/landing_binding.dart';
 import '../modules/landing/views/landing_view.dart';
 import '../modules/lists-pages/vehicles-list/bindings/vehicles_list_binding.dart';
 import '../modules/lists-pages/vehicles-list/views/lists_pages_vehicles_list_view.dart';
+import '../modules/route-add-customer/bindings/route_add_customer_binding.dart';
+import '../modules/route-add-customer/views/route_add_customer_view.dart';
 import '../modules/route-customers/bindings/route_customers_binding.dart';
 import '../modules/route-customers/views/route_customers_view.dart';
 import '../modules/route-inventory/bindings/route_inventory_binding.dart';
@@ -95,6 +97,11 @@ class AppPages {
       name: _Paths.ROUTE_LOSSES_CHANGES_TO_GIVE,
       page: () => RouteLossesChangesToGiveView(),
       binding: RouteLossesChangesBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROUTE_ADD_CUSTOMER,
+      page: () => RouteAddCustomerView(),
+      binding: RouteAddCustomerBinding(),
     ),
   ];
 }

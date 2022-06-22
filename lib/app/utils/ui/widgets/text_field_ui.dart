@@ -12,6 +12,7 @@ class UITextField extends StatefulWidget {
   final Color? backgroundColor;
   final bool autofocus;
   final bool withError;
+  final void Function(String)? onChanged;
 
   UITextField(
       {this.controller,
@@ -23,6 +24,7 @@ class UITextField extends StatefulWidget {
       required this.label,
       this.inputType,
       this.backgroundColor,
+      this.onChanged,
       this.placeholder});
 
   @override
@@ -48,6 +50,7 @@ class _UITextFieldState extends State<UITextField> {
           ),
         ),
         TextFormField(
+            onChanged: widget.onChanged,
             autofocus: widget.autofocus,
             readOnly: widget.readonly,
             enabled: !widget.readonly,
@@ -60,6 +63,9 @@ class _UITextFieldState extends State<UITextField> {
             validator: widget.validator,
             style: textStyle.inputText,
             decoration: InputDecoration(
+                hintText: widget.placeholder,
+                hintStyle:
+                    textStyle.inputText.copyWith(color: UIColors.darkColor60),
                 suffixIcon: suffixIcon,
                 errorStyle:
                     TextStyle(color: UIColors.red, fontWeight: FontWeight.w600),

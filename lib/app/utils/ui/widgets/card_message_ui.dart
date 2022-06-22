@@ -70,12 +70,14 @@ class UICardMessage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Icon(icon, color: color, size: 45),
+              Icon(icon, color: color.withOpacity(0.7), size: 45),
               SizedBox(height: 16),
-              Text(message, style: textStyles.itemTitle.copyWith(color: color)),
+              Text(message,
+                  style: textStyles.itemTitle
+                      .copyWith(color: color.withOpacity(0.7))),
               Text(subMessage ?? "",
                   style: textStyles.itemInfo
-                      .copyWith(color: color.withOpacity(0.8)))
+                      .copyWith(color: color.withOpacity(0.7)))
             ],
           ),
         ));

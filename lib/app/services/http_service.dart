@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import "package:http/http.dart" as http;
+import 'package:jawa_app/app/models/http/data_model.dart';
 import 'dart:convert';
 
 import '../models/http/res_model.dart';
@@ -51,7 +52,6 @@ class HttpService {
             HttpHeaders.contentTypeHeader: "application/json"
           },
           body: json.encode(data));
-      print(response.body);
       if (response.statusCode == 200) {
         HttpResponse<T> result =
             HttpResponse.fromMap(json.decode(response.body), dataOrigin);
@@ -64,6 +64,40 @@ class HttpService {
       }
     } catch (e) {
       HttpResponse<T> result = HttpResponse.fromError("Error: $e", 000);
+      return result;
+    }
+  }
+
+  static Future<HttpResponsePagination<T>> postPagination<T>(
+      {required String method,
+      required Map<String, dynamic> data,
+      required Pagination pagination,
+      String? dataOrigin}) async {
+    try {
+      final token = await storage.read(key: "access-token");
+      data.addAll(pagination.toMap());
+
+      final response = await client.post(Uri.parse("$url$method"),
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer $token",
+            HttpHeaders.acceptHeader: "application/json",
+            HttpHeaders.contentTypeHeader: "application/json"
+          },
+          body: json.encode(data));
+
+      if (response.statusCode == 200) {
+        HttpResponsePagination<T> result = HttpResponsePagination.fromMap(
+            json.decode(response.body), dataOrigin);
+        return result;
+      } else {
+        final error = json.decode(response.body);
+        HttpResponsePagination<T> result = HttpResponsePagination.fromError(
+            error['message'], response.statusCode);
+        return result;
+      }
+    } catch (e) {
+      HttpResponsePagination<T> result =
+          HttpResponsePagination.fromError("Error: $e", 000);
       return result;
     }
   }
