@@ -21,13 +21,14 @@ class RouteAddCustomerView extends GetView<RouteAddCustomerController> {
 
   Widget _body() {
     return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       controller: controller.scrollController,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(children: [
           _internetError(),
-          _emptyState(),
           _searchBar(),
+          _emptyState(),
           _list(),
           _searchLoading(),
         ]),
@@ -37,25 +38,32 @@ class RouteAddCustomerView extends GetView<RouteAddCustomerController> {
 
   Widget _searchBar() {
     return UISearch(
-        onSearch: (String v) {
-          print(v);
+        onSearch: (String text) {
+          controller.loadCustomersWithSearch(text);
         },
         controller: controller.searchController,
         placeholder: "Nombre del cliente");
   }
 
   Widget _list() {
-    if (controller.loading.value) {
+    if (controller.loading.value || controller.addLoading.value) {
       return Container(
           height: Get.height / 2,
-          child: UILoading(message: "Obteniendo clientes..."));
+          child: UILoading(
+              message: controller.loading.value
+                  ? "Obteniendo clientes..."
+                  : "Cargando..."));
     }
     return ListView.builder(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
         itemCount: controller.customers.length,
         itemBuilder: (BuildContext ctx, int i) {
-          return CustomerItem(customer: controller.customers[i], onTap: () {});
+          return CustomerItem(
+              customer: controller.customers[i],
+              onTap: () {
+                controller.handleAddCustomerToRoute(controller.customers[i]);
+              });
         });
   }
 
@@ -86,8 +94,9 @@ class RouteAddCustomerView extends GetView<RouteAddCustomerController> {
         return Column(
           children: [
             UICardMessage.neutral(
-                message: "No se tienen recargas registradas",
-                subMessage: "Intenta actualizar",
+                message:
+                    "No se encontraron clientes que coincidan con lo buscado",
+                subMessage: "Intenta con otro nombre",
                 icon: Icons.sentiment_dissatisfied_rounded),
           ],
         );

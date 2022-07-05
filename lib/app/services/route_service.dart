@@ -41,6 +41,20 @@ class RouteService {
     }
   }
 
+  Future<HttpResponse> addCustomerToRoute(
+      {required int routeId, required int customerid}) async {
+    try {
+      HttpResponse response = await HttpService.post(
+          method: "rutas/AgregarClientesARutaDesdeRuta",
+          data: {"id_Ruta": routeId, "id_Cliente": customerid},
+          dataOrigin: "success");
+
+      return response;
+    } catch (e) {
+      return HttpResponse.fromError(e.toString(), 0);
+    }
+  }
+
   Future<HttpResponse<List<RouteCustomerModel>>> getRouteCustomers(
       {required int routeId}) async {
     try {

@@ -76,7 +76,6 @@ class HttpService {
     try {
       final token = await storage.read(key: "access-token");
       data.addAll(pagination.toMap());
-
       final response = await client.post(Uri.parse("$url$method"),
           headers: {
             HttpHeaders.authorizationHeader: "Bearer $token",

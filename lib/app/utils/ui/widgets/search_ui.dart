@@ -28,6 +28,10 @@ class _UISearchState extends State<UISearch> {
     return UITextField(
         onChanged: _onSearchChanged,
         label: "Buscar",
+        onClear: () {
+          widget.controller.clear();
+          widget.onSearch("");
+        },
         controller: widget.controller,
         placeholder: widget.placeholder);
   }

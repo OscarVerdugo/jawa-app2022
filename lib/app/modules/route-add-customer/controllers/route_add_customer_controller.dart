@@ -4,25 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jawa_app/app/models/http/data_model.dart';
 import 'package:jawa_app/app/models/route/customer_view_model.dart';
+import 'package:jawa_app/app/services/route_service.dart';
 
 import '../../../controllers/global_controller.dart';
 import '../../../services/customer_service.dart';
+import '../../../utils/ui/services/alert_ui_service.dart';
+import '../../../utils/ui/ui.dart';
 import '../../../utils/utils.dart';
+import '../../route-customers/controllers/route_customers_controller.dart';
 
 class RouteAddCustomerController extends GetxController {
   final globalController = Get.find<GlobalController>();
+  final routeCustomersController = Get.find<RouteCustomersController>();
   final customerService = CustomerService();
+  final routeService = RouteService();
+
+  final toastService = UIToastService();
 
   final searchController = TextEditingController(text: null);
   final scrollController = ScrollController();
 
-  final pagination = Pagination.init();
+  var pagination = Pagination.init();
 
   final customers = RxList<CustomerViewModel>();
 
   final hasConnection = RxBool(false);
   final loading = RxBool(false);
   final searchLoading = RxBool(false);
+  final addLoading = RxBool(false);
   var searchable = true;
 
   Timer? _debounce;
@@ -59,11 +68,37 @@ class RouteAddCustomerController extends GetxController {
     if (!nextPage) {
       loading.value = false;
     }
+    customers.refresh();
+    update();
+  }
+
+  loadCustomersWithSearch(String search) {
+    pagination = Pagination.init();
+    if (search.trim().isNotEmpty) {
+      pagination.search = search;
+    }
+    loadCustomers(nextPage: false);
+  }
+
+  addCustomerToRoute(CustomerViewModel customer) async {
+    addLoading.value = true;
+    update();
+    if (hasConnection.value) {
+      final res = await routeService.addCustomerToRoute(
+          routeId: globalController.route.value!.idRuta!,
+          customerid: customer.idCliente);
+      if (res.success) {
+        toastService.success(message: res.message);
+      } else {
+        print("RESULT FAILURE");
+        toastService.error(message: res.message);
+      }
+    }
+    addLoading.value = false;
     update();
   }
 
   nextPage() async {
-    print("search");
     searchable = false;
     searchLoading.value = true;
     update();
@@ -99,8 +134,19 @@ class RouteAddCustomerController extends GetxController {
     });
   }
 
+  handleAddCustomerToRoute(CustomerViewModel customer) {
+    UIAlertService.showConfirm(Get.context!,
+        title: "Aceptar",
+        message:
+            "Está seguro de agregar al cliente ${customer.nombre} a la ruta?",
+        onAccept: () {
+      addCustomerToRoute(customer);
+    });
+  }
+
   @override
   void onClose() {
+    routeCustomersController.loadCustomers();
     _debounce?.cancel();
     scrollController.removeListener(handleScroll);
   }

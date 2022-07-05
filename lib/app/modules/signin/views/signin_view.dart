@@ -20,6 +20,7 @@ class SigninView extends GetView<SigninController> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
         child: Center(
           child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,

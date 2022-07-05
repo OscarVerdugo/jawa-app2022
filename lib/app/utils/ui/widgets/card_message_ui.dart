@@ -73,9 +73,11 @@ class UICardMessage extends StatelessWidget {
               Icon(icon, color: color.withOpacity(0.7), size: 45),
               SizedBox(height: 16),
               Text(message,
+                  textAlign: TextAlign.center,
                   style: textStyles.itemTitle
                       .copyWith(color: color.withOpacity(0.7))),
               Text(subMessage ?? "",
+                  textAlign: TextAlign.center,
                   style: textStyles.itemInfo
                       .copyWith(color: color.withOpacity(0.7)))
             ],

@@ -12,6 +12,7 @@ class UITextField extends StatefulWidget {
   final Color? backgroundColor;
   final bool autofocus;
   final bool withError;
+  final Function()? onClear;
   final void Function(String)? onChanged;
 
   UITextField(
@@ -24,6 +25,7 @@ class UITextField extends StatefulWidget {
       required this.label,
       this.inputType,
       this.backgroundColor,
+      this.onClear,
       this.onChanged,
       this.placeholder});
 
@@ -115,6 +117,14 @@ class _UITextFieldState extends State<UITextField> {
                   ? Icons.visibility_rounded
                   : Icons.visibility_off_rounded,
               color: UIColors.darkBlue));
+    } else if (widget.onClear != null) {
+      return IconButton(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onPressed: () {
+            widget.onClear!();
+          },
+          icon: Icon(Icons.clear_rounded, color: UIColors.darkColor75));
     }
     return null;
   }

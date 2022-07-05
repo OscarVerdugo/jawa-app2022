@@ -45,7 +45,7 @@ class CustomerMenu extends StatelessWidget {
         if (customer.notasAsignadas.isNotEmpty) _optionAssignedNotes(),
         _option(
             color: UIColors.orange,
-            label: "Cambiar productos",
+            label: "Cambiar producto",
             onTap: () {
               controller.handleMakeChange();
             },
